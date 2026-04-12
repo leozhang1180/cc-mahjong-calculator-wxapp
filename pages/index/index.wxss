@@ -1,0 +1,759 @@
+/* ===== 修复溢出 ===== */
+page {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+view, text, scroll-view, input {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* ===== 页面容器 ===== */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f0f2f5;
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.tab-content {
+  flex: 1;
+  padding: 24rpx;
+  padding-bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.bottom-spacer {
+  height: 40rpx;
+}
+
+/* ===== 结算卡片 ===== */
+.result-card {
+  background: linear-gradient(135deg, #1a3a2a 0%, #0d2818 100%);
+  border-radius: 24rpx;
+  padding: 36rpx;
+  margin-bottom: 24rpx;
+  color: #fff;
+  box-shadow: 0 8rpx 32rpx rgba(0,0,0,0.2);
+  width: 100%;
+}
+
+.result-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.result-label {
+  font-size: 28rpx;
+  color: rgba(255,255,255,0.7);
+}
+
+.result-amount {
+  font-size: 64rpx;
+  font-weight: 700;
+  color: #ffd700;
+}
+
+.fan-tags {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 24rpx;
+  align-items: center;
+}
+
+.fan-tag {
+  display: inline-block;
+  background: rgba(255,215,0,0.15);
+  color: #ffd700;
+  font-size: 22rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+  border: 1rpx solid rgba(255,215,0,0.3);
+  white-space: nowrap;
+  line-height: 1.2;
+  margin-right: 12rpx;
+  margin-bottom: 12rpx;
+}
+
+.result-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8rpx 0;
+}
+
+.info-label {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.6);
+  flex-shrink: 0;
+}
+
+.info-value {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.9);
+  text-align: right;
+  word-break: break-all;
+}
+
+.info-value-highlight {
+  color: #ffd700;
+  font-weight: 600;
+  font-size: 30rpx;
+  text-align: right;
+  word-break: break-all;
+}
+
+.info-value-small {
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.9);
+  text-align: right;
+  word-break: break-all;
+}
+
+.result-divider {
+  height: 1rpx;
+  background: rgba(255,255,255,0.15);
+  margin: 16rpx 0;
+}
+
+/* ===== 区块通用 ===== */
+.section {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.05);
+  width: 100%;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.section-icon {
+  font-size: 32rpx;
+  margin-right: 12rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* ===== 快速选择 ===== */
+.quick-grid {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.quick-btn {
+  width: 31%;
+  margin-right: 3.5%;
+  margin-bottom: 16rpx;
+  text-align: center;
+  padding: 20rpx 12rpx;
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  border-radius: 14rpx;
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #2e7d32;
+}
+
+.quick-btn:nth-child(3n) {
+  margin-right: 0;
+}
+
+.quick-btn:active {
+  background: linear-gradient(135deg, #a5d6a7, #81c784);
+  transform: scale(0.95);
+}
+
+/* ===== 按钮组 ===== */
+.btn-group {
+  display: flex;
+  width: 100%;
+}
+
+.btn-group-item {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  padding: 22rpx 12rpx;
+  background: #f5f5f5;
+  border-radius: 14rpx;
+  font-size: 26rpx;
+  color: #666;
+  border: 2rpx solid transparent;
+  margin-right: 16rpx;
+}
+
+.btn-group-item:last-child {
+  margin-right: 0;
+}
+
+.btn-group-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.btn-group-wrap-item {
+  width: 48%;
+  text-align: center;
+  padding: 22rpx 12rpx;
+  background: #f5f5f5;
+  border-radius: 14rpx;
+  font-size: 26rpx;
+  color: #666;
+  border: 2rpx solid transparent;
+  margin-right: 4%;
+  margin-bottom: 16rpx;
+}
+
+.btn-group-wrap-item:nth-child(2n) {
+  margin-right: 0;
+}
+
+.btn-group-item.active,
+.btn-group-wrap-item.active {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  color: #1b5e20;
+  border-color: #4caf50;
+  font-weight: 600;
+}
+
+.btn-group-item:active,
+.btn-group-wrap-item:active {
+  transform: scale(0.96);
+}
+
+.fan-hint {
+  font-size: 22rpx;
+  color: #e65100;
+  font-weight: 400;
+}
+
+.hint-row {
+  margin-top: 12rpx;
+}
+
+.hint-text {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* ===== 切换列表（牌型/特殊） ===== */
+.toggle-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.toggle-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22rpx 24rpx;
+  background: #f8f8f8;
+  border-radius: 14rpx;
+  border: 2rpx solid transparent;
+  width: 100%;
+  margin-bottom: 12rpx;
+}
+
+.toggle-item.active {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  border-color: #4caf50;
+}
+
+.toggle-item.disabled {
+  opacity: 0.45;
+}
+
+.toggle-item:active {
+  transform: scale(0.98);
+}
+
+.toggle-item-small {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18rpx 24rpx;
+  background: #f8f8f8;
+  border-radius: 14rpx;
+  border: 2rpx solid transparent;
+  width: 100%;
+  margin-bottom: 12rpx;
+}
+
+.toggle-item-small.active {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  border-color: #4caf50;
+}
+
+.toggle-item-small:active {
+  transform: scale(0.98);
+}
+
+.toggle-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.toggle-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  display: block;
+}
+
+.toggle-desc {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 4rpx;
+  display: block;
+}
+
+.toggle-fan {
+  font-size: 26rpx;
+  color: #e65100;
+  font-weight: 600;
+  margin-left: 16rpx;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ===== 杠牌 ===== */
+.gang-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.gang-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 24rpx;
+  background: #f8f8f8;
+  border-radius: 14rpx;
+  width: 100%;
+  margin-bottom: 16rpx;
+}
+
+.gang-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.gang-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  display: block;
+}
+
+.gang-desc {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 4rpx;
+  display: block;
+}
+
+.gang-counter {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.counter-btn {
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 2rpx solid #ddd;
+  border-radius: 50%;
+  font-size: 32rpx;
+  color: #333;
+  font-weight: 600;
+}
+
+.counter-btn:active {
+  background: #e8f5e9;
+  border-color: #4caf50;
+}
+
+.counter-val {
+  width: 60rpx;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #1b5e20;
+  margin: 0 4rpx;
+}
+
+/* ===== 悬浮重置按钮 ===== */
+.floating-reset-btn {
+  position: fixed;
+  right: 32rpx;
+  bottom: 200rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.2);
+  z-index: 100;
+  border: 1rpx solid rgba(255,255,255,0.15);
+}
+
+.floating-reset-btn:active {
+  transform: scale(0.9);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.floating-reset-icon {
+  font-size: 32rpx;
+  line-height: 1;
+}
+
+.floating-reset-text {
+  font-size: 20rpx;
+  color: rgba(255,255,255,0.9);
+  margin-top: 2rpx;
+  line-height: 1;
+}
+
+/* ===== 规则页 ===== */
+.page-title-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32rpx;
+  margin-bottom: 20rpx;
+}
+
+.page-title-icon {
+  font-size: 44rpx;
+  margin-right: 16rpx;
+}
+
+.page-title-text {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1a6b3c;
+}
+
+.rule-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.rule-item {
+  background: #fff;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.05);
+  width: 100%;
+  margin-bottom: 16rpx;
+}
+
+.rule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28rpx 32rpx;
+}
+
+.rule-header:active {
+  background: #f9f9f9;
+}
+
+.rule-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1a6b3c;
+}
+
+.rule-arrow {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.rule-body {
+  padding: 0 32rpx 28rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.rule-line {
+  padding: 6rpx 0;
+}
+
+.rule-line-text {
+  font-size: 26rpx;
+  color: #555;
+  line-height: 1.8;
+}
+
+.rule-spacer {
+  height: 16rpx;
+}
+
+/* ===== 设置页 ===== */
+.setting-section {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.05);
+  width: 100%;
+}
+
+.setting-label {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 20rpx;
+}
+
+.setting-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.setting-btn {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  padding: 20rpx 8rpx;
+  background: #f5f5f5;
+  border-radius: 14rpx;
+  font-size: 26rpx;
+  color: #666;
+  border: 2rpx solid transparent;
+  margin-right: 12rpx;
+}
+
+.setting-btn:last-child {
+  margin-right: 0;
+}
+
+.setting-btn.active {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  color: #1b5e20;
+  border-color: #4caf50;
+  font-weight: 600;
+}
+
+.setting-btn:active {
+  transform: scale(0.96);
+}
+
+.setting-hint {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 12rpx;
+  padding-left: 4rpx;
+}
+
+/* 开关 */
+.switch-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.switch-item-last {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+}
+
+.switch-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.switch-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  display: block;
+}
+
+.switch-desc {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 4rpx;
+  display: block;
+}
+
+.switch-indicator {
+  width: 80rpx;
+  height: 44rpx;
+  border-radius: 22rpx;
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+
+.switch-indicator-on {
+  width: 80rpx;
+  height: 44rpx;
+  border-radius: 22rpx;
+  background: #4caf50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+
+.switch-indicator-text {
+  font-size: 22rpx;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* 价格输入 */
+.price-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.price-item-last {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+}
+
+.price-label {
+  font-size: 28rpx;
+  color: #555;
+}
+
+.price-input {
+  width: 160rpx;
+  height: 64rpx;
+  text-align: center;
+  background: #f5f5f5;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1b5e20;
+}
+
+/* 操作按钮 */
+.setting-actions {
+  display: flex;
+  margin-bottom: 20rpx;
+  width: 100%;
+}
+
+.action-btn-save {
+  flex: 1;
+  text-align: center;
+  padding: 26rpx;
+  border-radius: 16rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  background: linear-gradient(135deg, #2e7d32, #1b5e20);
+  color: #fff;
+  margin-right: 20rpx;
+}
+
+.action-btn-save:active {
+  opacity: 0.85;
+}
+
+.action-btn-reset {
+  flex: 1;
+  text-align: center;
+  padding: 26rpx;
+  border-radius: 16rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  background: #f5f5f5;
+  color: #999;
+}
+
+.action-btn-reset:active {
+  background: #eee;
+}
+
+/* ===== 底部导航栏 ===== */
+.custom-tab-bar {
+  display: flex;
+  height: 150rpx;
+  background: #fff;
+  border-top: 1rpx solid #e8e8e8;
+  padding-bottom: env(safe-area-inset-bottom);
+  box-shadow: 0 -4rpx 16rpx rgba(0,0,0,0.05);
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10rpx 0;
+  position: relative;
+}
+
+.tab-active-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -24rpx;
+  width: 48rpx;
+  height: 6rpx;
+  background: #1a6b3c;
+  border-radius: 3rpx;
+}
+
+.tab-icon {
+  font-size: 40rpx;
+  margin-bottom: 4rpx;
+}
+
+.tab-text {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.tab-text-active {
+  font-size: 22rpx;
+  color: #1a6b3c;
+  font-weight: 600;
+}
