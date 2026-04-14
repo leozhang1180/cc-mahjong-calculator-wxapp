@@ -1,0 +1,55 @@
+<!-- pages/players/players.wxml -->
+<view class="page-wrap">
+
+  <view class="page-header">
+    <view class="header-title">👥 玩家管理</view>
+    <view class="header-sub">点击玩家名字进行修改</view>
+  </view>
+
+  <scroll-view scroll-y class="list-scroll">
+    <view class="content-wrap">
+
+      <view wx:for="{{players}}" wx:key="id" class="player-card">
+        <view class="player-pos-badge">{{item.label}}</view>
+
+        <view class="player-info" wx:if="{{editingIndex !== index}}">
+          <view class="player-display-name">{{item.name}}</view>
+           <text class="score-inline {{item.totalScore >= 0 ? 'score-positive' : 'score-negative'}}">总分 {{item.totalScore > 0 ? '+' : ''}}{{item.totalScore}}</text>
+
+        </view>
+
+        <view class="player-edit-area" wx:if="{{editingIndex === index}}">
+          <input
+            class="name-input"
+            value="{{editingName}}"
+            bindinput="onNameInput"
+            placeholder="输入玩家名字"
+            maxlength="8"
+            focus="{{true}}"
+          />
+          <view class="edit-btns">
+            <view class="btn-cancel" bindtap="onCancelEdit">取消</view>
+            <view class="btn-save" bindtap="onSaveName">保存</view>
+          </view>
+        </view>
+
+        <view
+          class="edit-icon"
+          wx:if="{{editingIndex !== index}}"
+          data-index="{{index}}"
+          bindtap="onStartEdit"
+        >✏️</view>
+      </view>
+
+      <view class="tips-card">
+        <view class="tips-title">📌 说明</view>
+        <view class="tips-text">• 玩家位置（东南西北）代表麻将座位，不可更改</view>
+        <view class="tips-text">• 修改名字后分数不会重置</view>
+        <view class="tips-text">• 如需重置分数，请在「记录」页面点击清除全部</view>
+      </view>
+
+      <view style="height: 40rpx"></view>
+    </view>
+  </scroll-view>
+
+</view>

@@ -1,411 +1,150 @@
-﻿<view class="page-container">
+﻿<!-- pages/index/index.wxml -->
+<view class="page-container">
 
-<scroll-view scroll-y class="tab-content" wx:if="{{currentTab === 0}}">
-
-  <view class="result-card">
-    <view class="result-top">
-      <text class="result-label">胡牌总收入</text>
-      <text class="result-amount">¥{{grandTotal}}</text>
-    </view>
-
-    <view class="fan-tags" wx:if="{{fanDetails.length > 0}}">
-      <text class="fan-tag" wx:for="{{fanDetails}}" wx:key="name">{{item.name}} +{{item.fan}}</text>
-    </view>
-
-    <view class="result-info-row">
-      <text class="info-label">翻数</text>
-      <text class="info-value">{{totalFan}}番{{isCapped ? '（封顶→' + actualFan + '番）' : ''}}</text>
-    </view>
-    <view class="result-info-row">
-      <text class="info-label">公式</text>
-      <text class="info-value">{{formulaText}}</text>
-    </view>
-    <view class="result-divider"></view>
-    <view class="result-info-row">
-      <text class="info-label">胡牌</text>
-      <text class="info-value-highlight">¥{{huIncome}}</text>
-    </view>
-    <view class="result-info-row" wx:if="{{gangIncome > 0}}">
-      <text class="info-label">杠牌</text>
-      <text class="info-value">¥{{gangIncome}}</text>
-    </view>
-    <view class="result-info-row">
-      <text class="info-label">支付</text>
-      <text class="info-value-small">{{payDescription}}</text>
-    </view>
-    <view class="result-info-row" wx:if="{{dealerNote !== ''}}">
-      <text class="info-label">庄闲</text>
-      <text class="info-value-small">{{dealerNote}}</text>
-    </view>
-  </view>
-
-  <view class="section">
-    <view class="section-header">
-      <text class="section-icon">⚡</text>
-      <text class="section-title">快速选择</text>
-    </view>
-    <view class="quick-grid">
-      <view class="quick-btn" bindtap="quickSelect" data-type="normal">普通自摸</view>
-      <view class="quick-btn" bindtap="quickSelect" data-type="jia">夹胡自摸</view>
-      <view class="quick-btn" bindtap="quickSelect" data-type="duidui">对对胡</view>
-      <view class="quick-btn" bindtap="quickSelect" data-type="hun">混一色</view>
-      <view class="quick-btn" bindtap="quickSelect" data-type="qing">清一色</view>
-      <view class="quick-btn" bindtap="quickSelect" data-type="qidui">七对</view>
-    </view>
-  </view>
-
-  <view class="section">
-    <view class="section-header">
-      <text class="section-icon">👤</text>
-      <text class="section-title">身份</text>
-    </view>
-    <view class="btn-group">
-      <view class="btn-group-item {{!isDealer ? 'active' : ''}}" bindtap="setDealer" data-value="false">闲家</view>
-      <view class="btn-group-item {{isDealer ? 'active' : ''}}" bindtap="setDealer" data-value="true">庄家 <text class="fan-hint">翻倍收付</text></view>
-    </view>
-  </view>
-
-  <view class="section">
-    <view class="section-header">
-      <text class="section-icon">🀄</text>
-      <text class="section-title">胡牌方式</text>
-    </view>
-    <view class="btn-group">
-      <view class="btn-group-item {{winType === 0 ? 'active' : ''}}" bindtap="setWinType" data-value="0">自摸 <text class="fan-hint">+1番</text></view>
-      <view class="btn-group-item {{winType === 1 ? 'active' : ''}}" bindtap="setWinType" data-value="1">摸宝 <text class="fan-hint">+2番</text></view>
-      <view class="btn-group-item {{winType === 2 ? 'active' : ''}}" bindtap="setWinType" data-value="2">点炮</view>
-    </view>
-  </view>
-
-  <view class="section" wx:if="{{winType === 2 && !isDealer && !dianpaoAll}}">
-    <view class="section-header">
-      <text class="section-icon">🎯</text>
-      <text class="section-title">点炮者</text>
-    </view>
-    <view class="btn-group">
-      <view class="btn-group-item {{!firedByDealer ? 'active' : ''}}" bindtap="setFiredByDealer" data-value="false">闲家点炮</view>
-      <view class="btn-group-item {{firedByDealer ? 'active' : ''}}" bindtap="setFiredByDealer" data-value="true">庄家点炮 <text class="fan-hint">翻倍</text></view>
-    </view>
-  </view>
-
-  <view class="section">
-    <view class="section-header">
-      <text class="section-icon">👂</text>
-      <text class="section-title">听牌方式</text>
-    </view>
-    <view class="btn-group-wrap">
-      <view class="btn-group-wrap-item {{waitType === 0 ? 'active' : ''}}" bindtap="setWaitType" data-value="0">两头听</view>
-      <view class="btn-group-wrap-item {{waitType === 1 ? 'active' : ''}}" bindtap="setWaitType" data-value="1">夹胡 <text class="fan-hint">+1番</text></view>
-      <view class="btn-group-wrap-item {{waitType === 2 ? 'active' : ''}}" bindtap="setWaitType" data-value="2">边胡 <text class="fan-hint">+1番</text></view>
-      <view class="btn-group-wrap-item {{waitType === 3 ? 'active' : ''}}" bindtap="setWaitType" data-value="3">单吊 <text class="fan-hint">+1番</text></view>
-    </view>
-    <view class="hint-row">
-      <text class="hint-text" wx:if="{{waitType === 0}}">如45听3和6，不加番</text>
-      <text class="hint-text" wx:if="{{waitType === 1}}">如46胡5，嵌张听牌</text>
-      <text class="hint-text" wx:if="{{waitType === 2}}">如12胡3或89胡7</text>
-      <text class="hint-text" wx:if="{{waitType === 3}}">只听一张将牌（钓将）</text>
-    </view>
-  </view>
-
-  <view class="section">
-    <view class="section-header">
-      <text class="section-icon">🎴</text>
-      <text class="section-title">牌型加番</text>
-    </view>
-    <view class="toggle-list">
-      <view class="toggle-item {{duiDuiHu ? 'active' : ''}}" bindtap="togglePattern" data-field="duiDuiHu">
-        <view class="toggle-left">
-          <text class="toggle-name">对对胡（碰碰胡）</text>
-          <text class="toggle-desc">全刻子+一对将，无顺子</text>
-        </view>
-        <text class="toggle-fan">+2番</text>
+  <!-- 玩家分数总览 -->
+  <view class="score-header">
+    <view wx:for="{{positionItems}}" wx:key="id" class="score-item">
+      <view class="pos-label {{item.isDealer ? 'dealer-label' : ''}}">
+        {{item.label}}{{item.isDealer ? '(庄)' : ''}}
       </view>
-      <view class="toggle-item {{hunYiSe ? 'active' : ''}}" bindtap="togglePattern" data-field="hunYiSe">
-        <view class="toggle-left">
-          <text class="toggle-name">混一色</text>
-          <text class="toggle-desc">一种花色+字牌</text>
-        </view>
-        <text class="toggle-fan">+2番</text>
-      </view>
-      <view class="toggle-item {{qingYiSe ? 'active' : ''}}" bindtap="togglePattern" data-field="qingYiSe">
-        <view class="toggle-left">
-          <text class="toggle-name">清一色</text>
-          <text class="toggle-desc">纯一种花色，无字牌</text>
-        </view>
-        <text class="toggle-fan">+{{qingyiseFan}}番</text>
-      </view>
-      <view class="toggle-item {{qiDui ? 'active' : ''}}" bindtap="togglePattern" data-field="qiDui">
-        <view class="toggle-left">
-          <text class="toggle-name">七对</text>
-          <text class="toggle-desc">7组对子，免开门要求</text>
-        </view>
-        <text class="toggle-fan">+{{qiduiFan}}番</text>
-      </view>
-      <view class="toggle-item {{haoHuaQiDui ? 'active' : ''}}" bindtap="togglePattern" data-field="haoHuaQiDui">
-        <view class="toggle-left">
-          <text class="toggle-name">豪华七对</text>
-          <text class="toggle-desc">七对中含4张相同牌</text>
-        </view>
-        <text class="toggle-fan">+{{haohuaQiduiFan}}番</text>
-      </view>
-      <view class="toggle-item {{menQing ? 'active' : ''}} {{!menqingAllowed ? 'disabled' : ''}}" bindtap="togglePattern" data-field="menQing">
-        <view class="toggle-left">
-          <text class="toggle-name">门清（站立）</text>
-          <text class="toggle-desc">{{menqingAllowed ? '没有吃碰杠' : '设置中未启用'}}</text>
-        </view>
-        <text class="toggle-fan">+1番</text>
+      <view class="player-name">{{item.name}}</view>
+      <view class="player-score {{players[index].totalScore >= 0 ? 'score-positive' : 'score-negative'}}">
+        {{players[index].totalScore > 0 ? '+' : ''}}{{players[index].totalScore}}
       </view>
     </view>
   </view>
 
-  <view class="section">
-    <view class="section-header">
-      <text class="section-icon">💰</text>
-      <text class="section-title">杠牌（即时结算）</text>
-    </view>
-    <view class="gang-list">
-      <view class="gang-item">
-        <view class="gang-left">
-          <text class="gang-name">明杠</text>
-          <text class="gang-desc">点杠者付 ¥{{mingGangPrice}}/杠</text>
-        </view>
-        <view class="gang-counter">
-          <view class="counter-btn" bindtap="adjustGang" data-field="mingGangCount" data-delta="-1">−</view>
-          <text class="counter-val">{{mingGangCount}}</text>
-          <view class="counter-btn" bindtap="adjustGang" data-field="mingGangCount" data-delta="1">+</view>
+  <scroll-view scroll-y class="scroll-area">
+    <view class="content-wrap">
+
+      <!-- 谁胡了 -->
+      <view class="card">
+        <view class="section-title">🀄 谁胡了？</view>
+        <view class="player-grid">
+          <view
+            wx:for="{{positionItems}}"
+            wx:key="id"
+            class="player-btn {{winner === item.id ? 'player-btn-active' : ''}}"
+            data-pos="{{item.id}}"
+            bindtap="onSelectWinner"
+          >
+            <view class="pos-tag">{{item.label}}</view>
+            <view class="player-btn-name">{{item.name}}</view>
+          </view>
         </view>
       </view>
-      <view class="gang-item">
-        <view class="gang-left">
-          <text class="gang-name">暗杠</text>
-          <text class="gang-desc">三家各付 ¥{{anGangPrice}}，共 ¥{{anGangPrice * 3}}/杠</text>
+
+      <!-- 胡牌详情 -->
+      <view class="card" wx:if="{{winner}}">
+        <view class="section-title">⚡ 胡牌详情</view>
+        <view class="row gap-16 mb-24">
+          <view
+            class="type-btn {{isSelfDrawn ? 'type-btn-active' : ''}}"
+            bindtap="onSelectSelfDrawn"
+          >自摸</view>
+          <view
+            class="type-btn {{!isSelfDrawn && loser && loser !== 'All' ? 'type-btn-active' : ''}}"
+            bindtap="onSelectDiscard"
+          >点炮</view>
         </view>
-        <view class="gang-counter">
-          <view class="counter-btn" bindtap="adjustGang" data-field="anGangCount" data-delta="-1">−</view>
-          <text class="counter-val">{{anGangCount}}</text>
-          <view class="counter-btn" bindtap="adjustGang" data-field="anGangCount" data-delta="1">+</view>
-        </view>
-      </view>
-      <view class="gang-item">
-        <view class="gang-left">
-          <text class="gang-name">补杠</text>
-          <text class="gang-desc">三家各付 ¥{{mingGangPrice}}，共 ¥{{mingGangPrice * 3}}/杠</text>
-        </view>
-        <view class="gang-counter">
-          <view class="counter-btn" bindtap="adjustGang" data-field="buGangCount" data-delta="-1">−</view>
-          <text class="counter-val">{{buGangCount}}</text>
-          <view class="counter-btn" bindtap="adjustGang" data-field="buGangCount" data-delta="1">+</view>
-        </view>
-      </view>
-    </view>
-  </view>
 
-  <view class="section">
-    <view class="section-header">
-      <text class="section-icon">⭐</text>
-      <text class="section-title">特殊加番</text>
-    </view>
-    <view class="toggle-list">
-      <view class="toggle-item-small {{gangShangKaiHua ? 'active' : ''}}" bindtap="toggleSpecial" data-field="gangShangKaiHua">
-        <text class="toggle-name">杠上开花</text>
-        <text class="toggle-fan">+1番</text>
-      </view>
-      <view class="toggle-item-small {{qiangGangHu ? 'active' : ''}}" bindtap="toggleSpecial" data-field="qiangGangHu">
-        <text class="toggle-name">抢杠胡</text>
-        <text class="toggle-fan">+1番</text>
-      </view>
-      <view class="toggle-item-small {{haiDiLaoYue ? 'active' : ''}}" bindtap="toggleSpecial" data-field="haiDiLaoYue">
-        <text class="toggle-name">海底捞月</text>
-        <text class="toggle-fan">+1番</text>
-      </view>
-      <view class="toggle-item-small {{baoZhongBao ? 'active' : ''}}" bindtap="toggleSpecial" data-field="baoZhongBao">
-        <text class="toggle-name">宝中宝</text>
-        <text class="toggle-fan">+2番</text>
-      </view>
-      <view class="toggle-item-small {{tongBao ? 'active' : ''}}" bindtap="toggleSpecial" data-field="tongBao">
-        <text class="toggle-name">通宝翻番</text>
-        <text class="toggle-fan">+{{tongBaoFan}}番</text>
-      </view>
-      <view class="toggle-item-small {{tianHu ? 'active' : ''}}" bindtap="toggleSpecial" data-field="tianHu">
-        <text class="toggle-name">天胡</text>
-        <text class="toggle-fan">满贯</text>
-      </view>
-      <view class="toggle-item-small {{diHu ? 'active' : ''}}" bindtap="toggleSpecial" data-field="diHu">
-        <text class="toggle-name">地胡</text>
-        <text class="toggle-fan">满贯</text>
-      </view>
-    </view>
-  </view>
-
-  <view style="height: 120rpx;"></view>
-</scroll-view>
-
-<view class="floating-reset-btn" wx:if="{{currentTab === 0}}" bindtap="resetAll">
-  <text class="floating-reset-icon">🔄</text>
-  <text class="floating-reset-text">重置</text>
-</view>
-
-<scroll-view scroll-y class="tab-content" wx:if="{{currentTab === 1}}">
-  <view class="page-title-card">
-    <text class="page-title-icon">📖</text>
-    <text class="page-title-text">长春麻将规则参考</text>
-  </view>
-
-  <view class="rule-list">
-    <view class="rule-item" wx:for="{{rules}}" wx:key="title">
-      <view class="rule-header" bindtap="toggleRule" data-idx="{{index}}">
-        <text class="rule-title">{{item.title}}</text>
-        <text class="rule-arrow">{{expandedRule === index ? '▲' : '▼'}}</text>
-      </view>
-      <view class="rule-body" wx:if="{{expandedRule === index}}">
-        <view wx:for="{{item.lines}}" wx:for-item="line" wx:key="*this" class="rule-line">
-          <text class="rule-line-text" wx:if="{{line !== ''}}">{{line}}</text>
-          <view wx:if="{{line === ''}}" class="rule-spacer"></view>
+        <view class="player-grid" wx:if="{{!isSelfDrawn}}">
+          <view
+            wx:for="{{positionItems}}"
+            wx:key="id"
+            wx:if="{{item.id !== winner}}"
+            class="player-btn {{loser === item.id ? 'player-btn-loser' : ''}}"
+            data-pos="{{item.id}}"
+            bindtap="onSelectLoser"
+          >
+            <view class="pos-tag">{{item.label}}</view>
+            <view class="player-btn-name">{{item.name}}</view>
+          </view>
         </view>
       </view>
-    </view>
-  </view>
 
-  <view class="bottom-spacer"></view>
-</scroll-view>
+      <!-- 加番项 -->
+      <view class="card" wx:if="{{winner}}">
+        <view class="section-title-row">
+          <view class="section-title">🎴 加番项</view>
+          <view
+            class="manguan-btn {{isManGuan ? 'manguan-btn-active' : ''}}"
+            bindtap="onToggleManGuan"
+          >满贯牌型</view>
+        </view>
 
-<scroll-view scroll-y class="tab-content" wx:if="{{currentTab === 2}}">
-  <view class="page-title-card">
-    <text class="page-title-icon">⚙️</text>
-    <text class="page-title-text">游戏设置</text>
-  </view>
+        <view wx:if="{{!isManGuan}}">
+          <view wx:for="{{fanGroups}}" wx:key="title" class="fan-group">
+            <view class="fan-group-title">{{item.title}}</view>
+            <view class="fan-chips">
+              <view
+                wx:for="{{item.fans}}"
+                wx:key="key"
+                wx:for-item="fan"
+                class="fan-chip {{fan.isSelected ? 'fan-chip-active' : ''}} {{fan.isDisabled ? 'fan-chip-disabled' : ''}}"
+                data-fan="{{fan.name}}"
+                bindtap="onToggleFan"
+              >{{fan.name}}</view>
+            </view>
+          </view>
+        </view>
 
-  <view class="setting-section">
-    <view class="setting-label">💴 底分（元）</view>
-    <view class="setting-btn-row">
-      <view class="setting-btn {{baseScore === 0.5 ? 'active' : ''}}" bindtap="setBaseScore" data-value="0.5">0.5</view>
-      <view class="setting-btn {{baseScore === 1 ? 'active' : ''}}" bindtap="setBaseScore" data-value="1">1</view>
-      <view class="setting-btn {{baseScore === 2 ? 'active' : ''}}" bindtap="setBaseScore" data-value="2">2</view>
-      <view class="setting-btn {{baseScore === 5 ? 'active' : ''}}" bindtap="setBaseScore" data-value="5">5</view>
-      <view class="setting-btn {{baseScore === 10 ? 'active' : ''}}" bindtap="setBaseScore" data-value="10">10</view>
-    </view>
-  </view>
-
-  <view class="setting-section">
-    <view class="setting-label">🔝 封顶</view>
-    <view class="setting-btn-row">
-      <view class="setting-btn {{capFan === 5 ? 'active' : ''}}" bindtap="setCapFan" data-value="5">32</view>
-      <view class="setting-btn {{capFan === 6 ? 'active' : ''}}" bindtap="setCapFan" data-value="6">64</view>
-      <view class="setting-btn {{capFan === 7 ? 'active' : ''}}" bindtap="setCapFan" data-value="7">128</view>
-      <view class="setting-btn {{capFan === 8 ? 'active' : ''}}" bindtap="setCapFan" data-value="8">256</view>
-      <view class="setting-btn {{capFan === 99 ? 'active' : ''}}" bindtap="setCapFan" data-value="99">不封顶</view>
-    </view>
-  </view>
-
-  <view class="setting-section">
-    <view class="setting-label">🟢 清一色翻数</view>
-    <view class="setting-btn-row">
-      <view class="setting-btn {{qingyiseFan === 3 ? 'active' : ''}}" bindtap="setQingyiseFan" data-value="3">3番</view>
-      <view class="setting-btn {{qingyiseFan === 4 ? 'active' : ''}}" bindtap="setQingyiseFan" data-value="4">4番</view>
-    </view>
-  </view>
-
-  <view class="setting-section">
-    <view class="setting-label">🔷 七对翻数</view>
-    <view class="setting-btn-row">
-      <view class="setting-btn {{qiduiFan === 4 ? 'active' : ''}}" bindtap="setQiduiFan" data-value="4">4番</view>
-      <view class="setting-btn {{qiduiFan === 6 ? 'active' : ''}}" bindtap="setQiduiFan" data-value="6">6番</view>
-    </view>
-  </view>
-
-  <view class="setting-section">
-    <view class="setting-label">💎 豪华七对翻数</view>
-    <view class="setting-btn-row">
-      <view class="setting-btn {{haohuaQiduiFan === 6 ? 'active' : ''}}" bindtap="setHaohuaFan" data-value="6">6番</view>
-      <view class="setting-btn {{haohuaQiduiFan === 8 ? 'active' : ''}}" bindtap="setHaohuaFan" data-value="8">8番</view>
-    </view>
-  </view>
-
-  <view class="setting-section">
-    <view class="setting-label">通宝翻番</view>
-    <view class="setting-btn-row">
-      <view class="setting-btn {{tongBaoFan === 1 ? 'active' : ''}}" bindtap="setTongBaoFan" data-value="1">1番</view>
-      <view class="setting-btn {{tongBaoFan === 2 ? 'active' : ''}}" bindtap="setTongBaoFan" data-value="2">2番</view>
-      <view class="setting-btn {{tongBaoFan === 3 ? 'active' : ''}}" bindtap="setTongBaoFan" data-value="3">3番</view>
-    </view>
-    <view class="setting-hint">宝牌刚好是自己要胡的牌，额外加番</view>
-  </view>
-
-  <view class="setting-section">
-    <view class="setting-label">🔧 规则开关</view>
-
-    <view class="switch-item" bindtap="toggleSetting" data-field="dianpaoAll">
-      <view class="switch-left">
-        <text class="switch-name">点炮包三家</text>
-        <text class="switch-desc">放炮者承担全部金额</text>
+        <view wx:else class="manguan-tip">
+          天胡/地胡等满贯牌型，直接按封顶番数计算。
+        </view>
       </view>
-      <view class="{{dianpaoAll ? 'switch-indicator-on' : 'switch-indicator'}}">
-        <text class="switch-indicator-text">{{dianpaoAll ? '是' : '否'}}</text>
+
+      <!-- 蛋分 -->
+      <view class="card">
+        <view class="section-title-row">
+          <view class="section-title">🥚 蛋分累计</view>
+          <view class="egg-total">总蛋: {{totalEggs}}</view>
+        </view>
+
+        <view class="egg-row" wx:for="{{positionItems}}" wx:key="id" wx:for-item="pItem">
+          <view class="egg-player-name">{{pItem.name}}</view>
+          <view class="egg-controls">
+            <view class="egg-btn egg-btn-minus" data-pos="{{pItem.id}}" data-delta="{{-5}}" bindtap="onEggChange">-5</view>
+            <view class="egg-btn egg-btn-minus" data-pos="{{pItem.id}}" data-delta="{{-1}}" bindtap="onEggChange">-1</view>
+            <view class="egg-val">{{eggScores[pItem.id]}}</view>
+            <view class="egg-btn egg-btn-plus" data-pos="{{pItem.id}}" data-delta="{{1}}" bindtap="onEggChange">+1</view>
+            <view class="egg-btn egg-btn-plus" data-pos="{{pItem.id}}" data-delta="{{5}}" bindtap="onEggChange">+5</view>
+          </view>
+        </view>
       </view>
-    </view>
 
-    <view class="switch-item" bindtap="toggleSetting" data-field="yaojiBao">
-      <view class="switch-left">
-        <text class="switch-name">幺鸡当宝</text>
-        <text class="switch-desc">1条永远算宝牌</text>
+      <!-- 结算明细预览 -->
+      <view class="card preview-card" wx:if="{{showPreview}}">
+        <view class="section-title" style="color:#6ee7b7">📊 结算明细预览</view>
+        <view class="preview-row" wx:for="{{previewScores}}" wx:key="pos">
+          <view class="preview-left">
+            <view class="preview-name-row">
+              <text class="preview-name">{{item.name}}</text>
+              <text class="tag tag-winner" wx:if="{{item.isWinner}}">胡</text>
+              <text class="tag tag-loser" wx:if="{{item.isLoser && !item.isWinner}}">点</text>
+              <text class="tag tag-dealer" wx:if="{{item.isDealer}}">庄</text>
+            </view>
+            <view class="preview-sub">
+              <text wx:if="{{item.huNet !== 0}}" style="margin-right:12rpx">胡: {{item.huNet > 0 ? '+' : ''}}{{item.huNet}}</text>
+              <text wx:if="{{item.eggNet !== 0}}">蛋: {{item.eggNet > 0 ? '+' : ''}}{{item.eggNet}}</text>
+            </view>
+          </view>
+          <view class="preview-score {{item.scoreClass}}">{{item.totalNetStr}}</view>
+        </view>
+
+        <view class="fan-tags" wx:if="{{currentHuInfo}}">
+          <view class="fan-tag-chip" wx:for="{{currentHuInfo.fans}}" wx:key="index">{{item}}</view>
+          <view class="fan-score-chip">{{currentHuInfo.totalFans}}番 ({{currentHuInfo.huScore}}分)</view>
+        </view>
       </view>
-      <view class="{{yaojiBao ? 'switch-indicator-on' : 'switch-indicator'}}">
-        <text class="switch-indicator-text">{{yaojiBao ? '是' : '否'}}</text>
-      </view>
+
+      <!-- 提交按钮 -->
+      <view
+        class="submit-btn {{canSubmit ? '' : 'submit-btn-disabled'}}"
+        bindtap="onSubmit"
+      >确认并保存结算</view>
+
+      <view style="height: 40rpx"></view>
     </view>
-
-    <view class="switch-item-last" bindtap="toggleSetting" data-field="menqingAllowed">
-      <view class="switch-left">
-        <text class="switch-name">允许门清站立</text>
-        <text class="switch-desc">没有吃碰杠全靠自摸</text>
-      </view>
-      <view class="{{menqingAllowed ? 'switch-indicator-on' : 'switch-indicator'}}">
-        <text class="switch-indicator-text">{{menqingAllowed ? '是' : '否'}}</text>
-      </view>
-    </view>
-  </view>
-
-  <view class="setting-section">
-    <view class="setting-label">💰 杠牌价格</view>
-
-    <view class="price-item">
-      <text class="price-label">明杠/补杠（元）</text>
-      <input class="price-input" type="digit" value="{{mingGangPrice}}"
-             bindinput="onGangPriceInput" data-field="mingGangPrice"
-             placeholder="2" />
-    </view>
-    <view class="price-item-last">
-      <text class="price-label">暗杠（元/人）</text>
-      <input class="price-input" type="digit" value="{{anGangPrice}}"
-             bindinput="onGangPriceInput" data-field="anGangPrice"
-             placeholder="4" />
-    </view>
-  </view>
-
-  <view class="setting-actions">
-    <view class="action-btn-save" bindtap="saveSettings">💾 保存设置</view>
-    <view class="action-btn-reset" bindtap="resetSettings">🔄 恢复默认</view>
-  </view>
-
-  <view class="bottom-spacer"></view>
-</scroll-view>
-
-<view class="custom-tab-bar">
-  <view class="tab-item" bindtap="switchTab" data-tab="0">
-    <view class="tab-active-line" wx:if="{{currentTab === 0}}"></view>
-    <text class="tab-icon">🧮</text>
-    <text class="{{currentTab === 0 ? 'tab-text-active' : 'tab-text'}}">算分</text>
-  </view>
-  <view class="tab-item" bindtap="switchTab" data-tab="1">
-    <view class="tab-active-line" wx:if="{{currentTab === 1}}"></view>
-    <text class="tab-icon">📖</text>
-    <text class="{{currentTab === 1 ? 'tab-text-active' : 'tab-text'}}">规则</text>
-  </view>
-  <view class="tab-item" bindtap="switchTab" data-tab="2">
-    <view class="tab-active-line" wx:if="{{currentTab === 2}}"></view>
-    <text class="tab-icon">⚙️</text>
-    <text class="{{currentTab === 2 ? 'tab-text-active' : 'tab-text'}}">设置</text>
-  </view>
-</view>
-
+  </scroll-view>
 </view>

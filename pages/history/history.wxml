@@ -1,0 +1,57 @@
+<!-- pages/history/history.wxml -->
+<view class="page-wrap">
+
+  <view class="top-bar">
+    <view class="top-title">📜 对局记录</view>
+    <view class="reset-btn" bindtap="onShowResetConfirm">清除全部</view>
+  </view>
+
+  <scroll-view scroll-y class="list-scroll">
+    <view wx:if="{{historyItems.length === 0}}" class="empty-tip">
+      <view class="empty-icon">🀄</view>
+      <view class="empty-text">还没有对局记录</view>
+      <view class="empty-sub">在「计算」页面完成结算后记录会显示在这里</view>
+    </view>
+
+    <view wx:for="{{historyItems}}" wx:key="id" class="round-card">
+      <view class="round-header">
+        <view class="round-meta">
+          <text class="round-time">{{item.timeStr}}</text>
+          <text class="round-dealer">庄: {{item.dealerName}}</text>
+        </view>
+        <view class="del-btn" data-id="{{item.id}}" bindtap="onDeleteRound">删除</view>
+      </view>
+
+      <view class="round-scores">
+        <view wx:for="{{item.scores}}" wx:key="pos" wx:for-item="s" class="round-score-item">
+          <view class="round-pos">{{s.label}}</view>
+          <view class="round-name">{{s.name}}</view>
+          <view class="round-net {{s.scoreClass}}">{{s.netStr}}</view>
+        </view>
+      </view>
+
+      <view class="round-tags" wx:if="{{item.hu}}">
+        <view class="hu-tag" wx:for="{{item.hu.fans}}" wx:key="index">{{item}}</view>
+        <view class="hu-score-tag">{{item.hu.totalFans}}番 ({{item.hu.huScore}}分)</view>
+        <view class="hu-type-tag" wx:if="{{item.hu.isSelfDrawn}}">自摸</view>
+        <view class="hu-type-tag" wx:else>点炮</view>
+      </view>
+    </view>
+
+    <view style="height: 40rpx"></view>
+  </scroll-view>
+
+  <!-- Reset confirm modal -->
+  <view class="modal-mask" wx:if="{{showResetConfirm}}">
+    <view class="modal-box">
+      <view class="modal-icon">⚠️</view>
+      <view class="modal-title">确定要清除吗？</view>
+      <view class="modal-desc">此操作将永久删除所有对局记录并重置玩家分数为0。</view>
+      <view class="modal-btns">
+        <view class="modal-cancel" bindtap="onCancelReset">取消</view>
+        <view class="modal-confirm" bindtap="onConfirmReset">确认清除</view>
+      </view>
+    </view>
+  </view>
+
+</view>
