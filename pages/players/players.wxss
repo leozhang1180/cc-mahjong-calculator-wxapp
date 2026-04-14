@@ -1,0 +1,156 @@
+/* pages/players/players.wxss */
+.page-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #fdfcf0;
+}
+
+.page-header {
+  padding: 28rpx 32rpx 20rpx;
+  background: #ffffff;
+  border-bottom: 1rpx solid #d1fae5;
+  flex-shrink: 0;
+}
+
+.header-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #052e16;
+  margin-bottom: 6rpx;
+}
+
+.header-sub {
+  font-size: 22rpx;
+  color: #6b7280;
+}
+
+.list-scroll {
+  flex: 1;
+  overflow: hidden;
+}
+
+.content-wrap {
+  padding: 24rpx;
+}
+
+.player-card {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  margin-bottom: 20rpx;
+  border: 1rpx solid #d1fae5;
+  box-shadow: 0 2rpx 8rpx rgba(6, 95, 70, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  position: relative;
+}
+
+.player-pos-badge {
+  width: 72rpx;
+  height: 72rpx;
+  background: #065f46;
+  color: #6ee7b7;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+.player-info {
+  flex: 1;
+}
+
+.player-display-name {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #052e16;
+  margin-bottom: 8rpx;
+}
+
+.score-inline {
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.score-positive { color: #059669; }
+.score-negative { color: #dc2626; }
+
+
+.edit-icon {
+  font-size: 36rpx;
+  padding: 8rpx;
+}
+
+.player-edit-area {
+  flex: 1;
+}
+
+.name-input {
+  width: 100%;
+  height: 72rpx;
+  background: #f0fdf4;
+  border: 2rpx solid #6ee7b7;
+  border-radius: 14rpx;
+  padding: 0 20rpx;
+  font-size: 30rpx;
+  color: #052e16;
+  margin-bottom: 16rpx;
+}
+
+.edit-btns {
+  display: flex;
+  gap: 12rpx;
+}
+
+.btn-cancel {
+  flex: 1;
+  height: 64rpx;
+  background: #f3f4f6;
+  color: #6b7280;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-save {
+  flex: 2;
+  height: 64rpx;
+  background: #059669;
+  color: #ffffff;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 0 #065f46;
+}
+
+.tips-card {
+  background: #ecfdf5;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  border: 1rpx solid #d1fae5;
+  margin-top: 8rpx;
+}
+
+.tips-title {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #059669;
+  margin-bottom: 14rpx;
+}
+
+.tips-text {
+  font-size: 22rpx;
+  color: #065f46;
+  line-height: 1.8;
+}

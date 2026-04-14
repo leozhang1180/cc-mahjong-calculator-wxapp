@@ -1,13 +1,50 @@
 {
   "pages": [
-    "pages/index/index"
+    "pages/index/index",
+    "pages/players/players",
+    "pages/history/history",
+    "pages/settings/settings"
   ],
   "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#065f46",
     "navigationBarTitleText": "雀实准计算器",
-    "navigationBarBackgroundColor": "#1a6b3c",
     "navigationBarTextStyle": "white",
-    "backgroundColor": "#f0f2f5"
+    "backgroundColor": "#fdfcf0"
   },
+  "tabBar": {
+    "color": "#9a9a9a",
+    "selectedColor": "#065f46",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "计算",
+        "iconPath": "images/calc.png",
+        "selectedIconPath": "images/calc_active.png"
+      },
+      {
+        "pagePath": "pages/history/history",
+        "text": "记录",
+        "iconPath": "images/history.png",
+        "selectedIconPath": "images/history_active.png"
+      },
+      {
+        "pagePath": "pages/players/players",
+        "text": "玩家",
+        "iconPath": "images/players.png",
+        "selectedIconPath": "images/players_active.png"
+      },
+      {
+        "pagePath": "pages/settings/settings",
+        "text": "设置",
+        "iconPath": "images/settings.png",
+        "selectedIconPath": "images/settings_active.png"
+      }
+    ]
+  },
+
   "style": "v2",
   "lazyCodeLoading": "requiredComponents",
   "sitemapLocation": "sitemap.json"

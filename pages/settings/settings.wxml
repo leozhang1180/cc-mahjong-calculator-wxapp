@@ -1,0 +1,189 @@
+<!-- pages/settings/settings.wxml -->
+<view class="page-wrap">
+
+  <view class="page-header">
+    <view class="header-title">⚙️ 游戏设置</view>
+    <view class="header-sub">调整规则参数，实时生效</view>
+  </view>
+
+  <scroll-view scroll-y class="list-scroll">
+    <view class="content-wrap">
+
+      <!-- 基础分值 -->
+      <view class="settings-card">
+        <view class="card-title">💰 基础分值</view>
+
+        <view class="setting-row">
+          <view class="setting-left">
+            <view class="setting-name">底分</view>
+            <view class="setting-desc">每番的基础分值倍数</view>
+          </view>
+          <view class="stepper">
+            <view class="stepper-btn" data-key="baseScore" data-delta="{{-1}}" bindtap="onStepperChange">−</view>
+            <view class="stepper-val">{{rules.baseScore}}</view>
+            <view class="stepper-btn stepper-btn-plus" data-key="baseScore" data-delta="{{1}}" bindtap="onStepperChange">+</view>
+          </view>
+        </view>
+
+        <view class="setting-row">
+          <view class="setting-left">
+            <view class="setting-name">最大番数</view>
+            <view class="setting-desc">满贯封顶番数</view>
+          </view>
+          <view class="stepper">
+            <view class="stepper-btn" data-key="maxFan" data-delta="{{-1}}" bindtap="onStepperChange">−</view>
+            <view class="stepper-val">{{rules.maxFan}}</view>
+            <view class="stepper-btn stepper-btn-plus" data-key="maxFan" data-delta="{{1}}" bindtap="onStepperChange">+</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 番数设置 -->
+      <view class="settings-card">
+        <view class="card-title">🎴 番数设置</view>
+
+        <view class="setting-row">
+          <view class="setting-left">
+            <view class="setting-name">清一色 番数</view>
+            <view class="setting-desc">默认 3 番</view>
+          </view>
+          <view class="stepper">
+            <view class="stepper-btn" data-key="qingyiseFan" data-delta="{{-1}}" bindtap="onStepperChange">−</view>
+            <view class="stepper-val">{{rules.qingyiseFan}}</view>
+            <view class="stepper-btn stepper-btn-plus" data-key="qingyiseFan" data-delta="{{1}}" bindtap="onStepperChange">+</view>
+          </view>
+        </view>
+
+        <view class="setting-row">
+          <view class="setting-left">
+            <view class="setting-name">七对 番数</view>
+            <view class="setting-desc">默认 4 番</view>
+          </view>
+          <view class="stepper">
+            <view class="stepper-btn" data-key="qiduiFan" data-delta="{{-1}}" bindtap="onStepperChange">−</view>
+            <view class="stepper-val">{{rules.qiduiFan}}</view>
+            <view class="stepper-btn stepper-btn-plus" data-key="qiduiFan" data-delta="{{1}}" bindtap="onStepperChange">+</view>
+          </view>
+        </view>
+
+        <view class="setting-row">
+          <view class="setting-left">
+            <view class="setting-name">豪华七对 番数</view>
+            <view class="setting-desc">默认 6 番</view>
+          </view>
+          <view class="stepper">
+            <view class="stepper-btn" data-key="luxuryQiduiFan" data-delta="{{-1}}" bindtap="onStepperChange">−</view>
+            <view class="stepper-val">{{rules.luxuryQiduiFan}}</view>
+            <view class="stepper-btn stepper-btn-plus" data-key="luxuryQiduiFan" data-delta="{{1}}" bindtap="onStepperChange">+</view>
+          </view>
+        </view>
+
+        <view class="setting-row">
+          <view class="setting-left">
+            <view class="setting-name">通宝 番数</view>
+            <view class="setting-desc">默认 2 番</view>
+          </view>
+          <view class="stepper">
+            <view class="stepper-btn" data-key="tongbaoFan" data-delta="{{-1}}" bindtap="onStepperChange">−</view>
+            <view class="stepper-val">{{rules.tongbaoFan}}</view>
+            <view class="stepper-btn stepper-btn-plus" data-key="tongbaoFan" data-delta="{{1}}" bindtap="onStepperChange">+</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 杠分设置 -->
+      <view class="settings-card">
+        <view class="card-title">🀄 杠分设置</view>
+
+        <view class="setting-row">
+          <view class="setting-left">
+            <view class="setting-name">明杠 分值</view>
+            <view class="setting-desc">每个明杠得分</view>
+          </view>
+          <view class="stepper">
+            <view class="stepper-btn" data-key="mingGangScore" data-delta="{{-1}}" bindtap="onStepperChange">−</view>
+            <view class="stepper-val">{{rules.mingGangScore}}</view>
+            <view class="stepper-btn stepper-btn-plus" data-key="mingGangScore" data-delta="{{1}}" bindtap="onStepperChange">+</view>
+          </view>
+        </view>
+
+        <view class="setting-row">
+          <view class="setting-left">
+            <view class="setting-name">暗杠 分值</view>
+            <view class="setting-desc">每个暗杠得分</view>
+          </view>
+          <view class="stepper">
+            <view class="stepper-btn" data-key="anGangScore" data-delta="{{-1}}" bindtap="onStepperChange">−</view>
+            <view class="stepper-val">{{rules.anGangScore}}</view>
+            <view class="stepper-btn stepper-btn-plus" data-key="anGangScore" data-delta="{{1}}" bindtap="onStepperChange">+</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 特殊规则开关 -->
+      <view class="settings-card">
+        <view class="card-title">🔧 特殊规则</view>
+
+        <view class="toggle-row">
+          <view class="setting-left">
+            <view class="setting-name">包三家 </view>
+            <view class="setting-desc">点炮者替其他人付款</view>
+          </view>
+          <switch
+            checked="{{rules.isBaoSanJia}}"
+            color="#059669"
+            data-key="isBaoSanJia"
+            bindchange="onToggle"
+          />
+        </view>
+
+        <view class="toggle-row">
+          <view class="setting-left">
+            <view class="setting-name">幺鸡万能 </view>
+            <view class="setting-desc">幺鸡（1万）可充当任意牌</view>
+          </view>
+          <switch
+            checked="{{rules.isYaojiWildcard}}"
+            color="#059669"
+            data-key="isYaojiWildcard"
+            bindchange="onToggle"
+          />
+        </view>
+
+        <view class="toggle-row">
+          <view class="setting-left">
+            <view class="setting-name">允许门清</view>
+            <view class="setting-desc">是否启用门清番型</view>
+          </view>
+          <switch
+            checked="{{rules.isAllowMenQing}}"
+            color="#059669"
+            data-key="isAllowMenQing"
+            bindchange="onToggle"
+          />
+        </view>
+      </view>
+
+      <!-- 分值预览
+      <view class="preview-card">
+        <view class="card-title" style="color:#6ee7b7">📊 当前分值对照表</view>
+        <view class="preview-table">
+          <view class="preview-row-item" wx:for="{{[0,1,2,3,4,5]}}" wx:key="index">
+            <text class="preview-fan">{{item}}番</text>
+            <text class="preview-score">= {{rules.baseScore * Math.pow(2, item)}} 分</text>
+          </view>
+          <view class="preview-row-item">
+            <text class="preview-fan">满贯({{rules.maxFan}}番)</text>
+            <text class="preview-score preview-score-max">= {{rules.baseScore * Math.pow(2, rules.maxFan)}} 分</text>
+          </view>
+        </view> 
+      </view> -->
+
+      <!-- 重置按钮 -->
+      <view class="reset-rules-btn" bindtap="onResetRules">恢复默认设置</view>
+
+      <view style="height: 40rpx"></view>
+    </view>
+  </scroll-view>
+
+</view>
