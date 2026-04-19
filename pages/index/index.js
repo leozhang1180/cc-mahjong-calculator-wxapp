@@ -5,7 +5,30 @@ const { POSITIONS, POSITION_LABELS, FAN_DEFINITIONS, EXCLUSIONS, FAN_GROUPS } = 
 const SELF_DRAWN_ONLY = ['杠上开花', '海底捞月', '摸宝'];
 
 Page({
+  onload: function(options){
+    //页面加载时开启分享菜单
+    wx.showShareMenu({
+      withShareTicket:true,
+      menus: ['shareAppMessage','shareTimeline']
+    })  
+  },
+  onShareAppMessage(){
+    return{
+      title:'🀄️ 雀实准：这局算得清清楚楚，谁也别想赖账！',
+      imageUrl: '/images/icon.png'
+
+    }
+  },
+  // 设置分享到朋友圈的标题
+  onShareTimeline() {
+    return {
+      title: '打麻将怕算错分？用「雀实准」就完事了！🀄️✨',
+      query: 'from=timeline'
+    }
+  },
+
   data: {
+    
     players: [],
     dealer: 'East',
     rules: {},
